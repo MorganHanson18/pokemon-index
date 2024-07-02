@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import {PokemonsService} from './pokemons.service'
+import {Pokemon} from './pokemon.interface'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterModule],
+  template: `
+    <main>
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  `,
+  styles: [],
 })
 export class AppComponent {
   title = 'pokedex';
