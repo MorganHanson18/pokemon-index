@@ -16,8 +16,5 @@ export const routeConfig: Routes = [
     },
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routeConfig)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export default routeConfig;
+

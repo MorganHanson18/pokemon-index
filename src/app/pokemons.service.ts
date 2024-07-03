@@ -13,8 +13,8 @@ export class PokemonsService {
     return this.http.get<Pokemon>('https://pokeapi.co/api/v2/pokemon?limit=999');
   }
 
-  getPokemon(pokemonId: number): Observable<PokemonDetails> {
-    return this.http.get<PokemonDetails>(`https://pokeapi.co/api/v2/pokemon/{{pokemonId}}`);
+  getPokemon(pokemonId: string): Observable<PokemonDetails> {
+    return this.http.get<PokemonDetails>(`https://pokeapi.co/api/v2/pokemon/` + pokemonId);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, inject, Input, input, signal} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Pokemon } from '../pokemon.interface';
+import { Pokemon, PokemonDetails } from '../pokemon.interface';
 import { PokemonsService } from '../pokemons.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { PokemonsService } from '../pokemons.service';
   styleUrls: ['./pokemon-item.component.css']
 })
 export class PokemonItemComponent {
-  @Input() pokemon!: { name: string; url: string };
+  @Input() pokemon!: PokemonDetails;
   id: number = 1;
 
   ngOnInit() {

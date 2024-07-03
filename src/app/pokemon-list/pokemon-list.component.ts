@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal} from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
-import { Pokemon } from '../pokemon.interface';
+import { Pokemon, PokemonDetails } from '../pokemon.interface';
 import {PokemonItemComponent} from '../pokemon-item/pokemon-item.component';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -29,8 +29,8 @@ import {PokemonsService} from '../pokemons.service'
   })
 
   export class PokemonListComponent {
-    pokemons: { name: string; url: string }[] = [];
-    filteredPokemons: { name: string; url: string }[] = [];
+    pokemons: PokemonDetails[] = [];
+    filteredPokemons: PokemonDetails[] = [];
 
     applyForm = new FormGroup({
       searchQuery: new FormControl(''),
@@ -53,7 +53,7 @@ import {PokemonsService} from '../pokemons.service'
       query = query.toLowerCase().trim();
 
       if (query === '') {
-        this.filteredPokemons = [...this.pokemons]; // Show all pokemons if search query is empty
+        this.filteredPokemons = [...this.pokemons];
       } else {
         this.filteredPokemons = this.pokemons.filter((pokemon) =>
           pokemon.name.toLowerCase().includes(query)
