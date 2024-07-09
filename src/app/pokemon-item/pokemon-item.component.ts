@@ -30,13 +30,13 @@ export class PokemonItemComponent implements OnInit{
   ngOnInit() {
     const urlParts = this.pokemon.url.split('/');
     this.id = Number(urlParts[urlParts.length - 2]);
-    this.pokemon.name = this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1);
     this.fetchPokemonDetails();
   }
 
   fetchPokemonDetails(): void {
     this.pokemonsService.getPokemon(this.id.toString()).subscribe((response: PokemonDetails) => {
       this.pokemon = response;
+      this.pokemon.name = this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1);
       if (response.types && response.types.length > 0) {
         this.pTypes = response.types;
       }
