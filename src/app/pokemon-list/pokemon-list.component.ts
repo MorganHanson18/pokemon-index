@@ -1,5 +1,5 @@
-import { Component, computed, inject, signal} from '@angular/core';
-import { NgFor, CommonModule } from '@angular/common';
+import { Component} from '@angular/core';
+import {CommonModule } from '@angular/common';
 import { Pokemon, PokemonDetails, PokemonType } from '../pokemon.interface';
 import {PokemonItemComponent} from '../pokemon-item/pokemon-item.component';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';

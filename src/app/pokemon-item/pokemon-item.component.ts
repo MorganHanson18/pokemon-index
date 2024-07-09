@@ -80,7 +80,7 @@ export class PokemonItemComponent implements OnInit{
       electric: '#f5f2ae',
       grass: '#c5e3cc',
       ice: '#d5e8eb',
-      fighting: '#dbcbc1',
+      fighting: '#f2b6b6',
       poison: '#ead1ed',
       ground: '#f5e0ae',
       flying: '#c5d9eb',

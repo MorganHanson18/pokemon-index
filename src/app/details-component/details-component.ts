@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, OnInit,} from '@angular/core';
 import {ActivatedRoute} from '@angular/router'
-import{Pokemon, PokemonDetails} from '../pokemon.interface'
+import{PokemonDetails} from '../pokemon.interface'
 import {PokemonsService} from '../pokemons.service'
 import { RouterModule } from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -51,7 +51,7 @@ export class DetailsComponent implements OnInit {
       electric: '#f5f2ae',
       grass: '#c5e3cc',
       ice: '#d5e8eb',
-      fighting: '#dbcbc1',
+      fighting: '#f2b6b6',
       poison: '#ead1ed',
       ground: '#f5e0ae',
       flying: '#c5d9eb',
@@ -64,7 +64,7 @@ export class DetailsComponent implements OnInit {
       steel: '#a8aaad',
       fairy: '#f7d7f5'
     };
-    return typeColors[type.toLowerCase()] || '#777777'; // Default to gray if type not found
+    return typeColors[type.toLowerCase()];
   }
 
   updateBackgroundColor(): void {
