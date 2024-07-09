@@ -11,10 +11,14 @@ import chroma from 'chroma-js';
   template: `
   <div class="item" [routerLink]="['/details', id]">
     <div class="pokemon-img">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{id}}.png" alt="{{pokemon.name}}">
+      <img class="pic" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{id}}.png" alt="{{pokemon.name}}">
     </div>
     <h4 class="open-sans">#{{id}}</h4>
     <h3 class="open-sans">{{pokemon.name}}</h3>
+    <div class="row">
+      <img class="type" [src]="getUrl(pTypes[0].type.name)">
+      <img *ngIf="pTypes[1]" class="type" [src]="getUrl(pTypes[1].type.name)">
+    </div>
   </div>
     `,
   styleUrls: ['./pokemon-item.component.css']
@@ -44,10 +48,34 @@ export class PokemonItemComponent implements OnInit{
     });
   }
 
+  getUrl(type: string): string {
+    const typeImgs: { [key: string]: string } = {
+      normal: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/0-normalpng.png',
+      fire: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/1-firepng.png',
+      water: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/2-waterpng.png',
+      electric: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/4-electricpng.png',
+      grass: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/3-grasspng.png',
+      ice: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/5-icepng.png',
+      fighting: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/6-fightingpng.png',
+      poison: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/7-poisonpng.png',
+      ground: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/8-groundpng.png',
+      flying: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/9-flyingpng.png',
+      psychic: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/a-psychicpng.png',
+      bug: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/b-bugpng.png',
+      rock: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/c-rockpng.png',
+      ghost: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/d-ghostpng.png',
+      dragon: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/e-dragonpng.png',
+      dark: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/f-darkpng.png',
+      steel: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/g-steelpng.png',
+      fairy: 'https://tiermaker.com/images/chart/chart/pokmon-type-symbols-724065/h-fairypng.png'
+    }
+    return typeImgs[type.toLowerCase()];
+  }
+
   getTypeColor(type: string): string {
     const typeColors: { [key: string]: string } = {
       normal: '#deccb4',
-      fire: '#f0c4bb',
+      fire: '#f5cdb8',
       water: '#dcdff7',
       electric: '#f5f2ae',
       grass: '#c5e3cc',
@@ -56,7 +84,7 @@ export class PokemonItemComponent implements OnInit{
       poison: '#ead1ed',
       ground: '#f5e0ae',
       flying: '#c5d9eb',
-      psychic: '#e0c1d5',
+      psychic: '#ebbed1',
       bug: '#eaf7b5',
       rock: '#dbd6d0',
       ghost: '#c3b4d1',

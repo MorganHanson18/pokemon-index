@@ -81,6 +81,10 @@ span {
   margin-right: 5px;
 }
 
+#legend {
+  font-weight: 400;
+}
+
 #legend ul {
   list-style: none;
   padding: 0;

@@ -46,7 +46,7 @@ export class DetailsComponent implements OnInit {
   getTypeColor(type: string): string {
     const typeColors: { [key: string]: string } = {
       normal: '#deccb4',
-      fire: '#f0c4bb',
+      fire: '#f5cdb8',
       water: '#dcdff7',
       electric: '#f5f2ae',
       grass: '#c5e3cc',
@@ -55,8 +55,8 @@ export class DetailsComponent implements OnInit {
       poison: '#ead1ed',
       ground: '#f5e0ae',
       flying: '#c5d9eb',
-      psychic: '#e0c1d5',
-      bug: '#dbf5d0',
+      psychic: '#ebbed1',
+      bug: '#eaf7b5',
       rock: '#dbd6d0',
       ghost: '#c3b4d1',
       dragon: '#d1d5e6',
@@ -78,7 +78,7 @@ export class DetailsComponent implements OnInit {
     const element = this.elementRef.nativeElement.querySelector('#chart');
     const width = 300;
     const height = 300;
-    const radius = Math.min(width, height) / 2;
+    const radius = 150;
     const data = [
       { label: 'HP', value: this.getStat('hp') },
       { label: 'Attack', value: this.getStat('attack') },
@@ -88,7 +88,6 @@ export class DetailsComponent implements OnInit {
       { label: 'Speed', value: this.getStat('speed') }
     ];
     const total = this.getStat('hp') + this.getStat('attack') + this.getStat('defense') + this.getStat('special-attack') + this.getStat('special-defense') + this.getStat('speed');
-
     const customColors = ['#ff595a', '#f5ac78', '#fbe078', '#9db7f5', '#a7dc8d', '#fa92b3'];
 
     d3.select(element).select('svg').remove();
@@ -109,7 +108,7 @@ export class DetailsComponent implements OnInit {
     const data_ready = pie(data);
 
     const arc = d3.arc<any>()
-      .innerRadius(radius * 0.18)
+      .innerRadius(radius * 0.2)
       .outerRadius((d: { data: { value: number; }; }) => radius * (d.data.value / total *3.5));
 
     const tooltip = d3.select("body").append("div")

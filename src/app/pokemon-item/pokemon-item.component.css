@@ -29,7 +29,8 @@
 
 h3 {
   font-size: 17px;
-  margin-top: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 h4 {
@@ -41,6 +42,7 @@ h4 {
   font-size: 14px;
   box-shadow: 0 4px 6px #99999a87;
   margin-bottom: 0;
+  margin-top: 10px;
 }
 
 .pokemon-img {
@@ -52,8 +54,21 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 13px;
 }
 
-img {
+.pic {
   width: 120px;
+}
+
+.type {
+  width: 30px;
+  border-radius: 100%;
+  box-shadow: 0 4px 6px #68686987;
+  background-color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 13px;
+  opacity: 0.75;
 }
