@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal} from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
-import { Pokemon, PokemonDetails } from '../pokemon.interface';
+import { Pokemon, PokemonDetails, PokemonType } from '../pokemon.interface';
 import {PokemonItemComponent} from '../pokemon-item/pokemon-item.component';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -13,7 +13,7 @@ import {PokemonsService} from '../pokemons.service'
     imports: [PokemonItemComponent, CommonModule, ReactiveFormsModule, RouterModule],
     template: `
     <div class="header">
-      <h1 class="open-sans">Pokedex</h1>
+      <h1 class="open-sans">Pokédex</h1>
     </div>
     <form [formGroup]="applyForm">
       <div class="search">
@@ -31,6 +31,7 @@ import {PokemonsService} from '../pokemons.service'
   export class PokemonListComponent {
     pokemons: PokemonDetails[] = [];
     filteredPokemons: PokemonDetails[] = [];
+    pTypes: PokemonType[] = [];
 
     applyForm = new FormGroup({
       searchQuery: new FormControl(''),

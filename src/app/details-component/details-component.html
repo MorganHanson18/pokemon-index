@@ -1,23 +1,31 @@
 
-<div class="main">
-  <div class="left">
-    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{id}}.png" alt="{{pokemon?.name}}">
-    <h1 class="open-sans">{{id}}  <b>{{ pokemon?.name }}</b></h1>
-    <p class="open-sans"><b>Experience:</b> {{pokemon?.base_experience}} <b>Weight:</b> {{pokemon?.weight}}</p>
-    <p class="open-sans"><b>hp:</b> {{getStat('hp')}} <b>attack:</b> {{getStat('attack')}} <b>defense:</b> {{getStat('defense')}} <b>special-attack:</b> {{getStat('special-attack')}} <b>special-defense:</b> {{getStat('special-defense')}} <b>speed:</b> {{getStat('speed')}}</p>
-    <p class="open-sans">
-      <span><b>Type:</b></span>
-      <span *ngFor="let type of pokemon?.types">{{ type.type.name }} </span>
-    </p>
-    <p class="open-sans">
-      <span><b>Abilities:</b></span>
-      <span *ngFor="let ability of pokemon?.abilities">{{ ability.ability.name }} </span>
-    </p>
+<div class="total">
+  <div class="header">
+    <a routerLink="/" class="header-link">
+      <h1 class="open-sans">Pokédex</h1>
+    </a>
   </div>
 
-  <div class="right">
-    <h1 class="open-sans">STATS</h1>
-    <div id="chart"></div>
-    <div id="legend"></div>
+  <div class="main">
+    <div class="left">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{id}}.png" alt="{{pokemon?.name}}">
+      <h2 class="open-sans">{{id}}  <b>{{ pokemon?.name }}</b></h2>
+      <p class="open-sans"><b>Experience:</b> {{pokemon?.base_experience}} <b>Weight:</b> {{pokemon?.weight}}</p>
+      <p class="open-sans"><b>hp:</b> {{getStat('hp')}} <b>attack:</b> {{getStat('attack')}} <b>defense:</b> {{getStat('defense')}} <b>special-attack:</b> {{getStat('special-attack')}} <b>special-defense:</b> {{getStat('special-defense')}} <b>speed:</b> {{getStat('speed')}}</p>
+      <p class="open-sans">
+        <span><b>Type:</b></span>
+        <span *ngFor="let type of pokemon?.types">{{ type.type.name }} </span>
+      </p>
+      <p class="open-sans">
+        <span><b>Abilities:</b></span>
+        <span *ngFor="let ability of pokemon?.abilities">{{ ability.ability.name }} </span>
+      </p>
+    </div>
+
+    <div class="right">
+      <h3 class="open-sans">STATS</h3>
+      <div class="open-sans" id="chart"></div>
+      <div class="open-sans" id="legend"></div>
+    </div>
   </div>
 </div>

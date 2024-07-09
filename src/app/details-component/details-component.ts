@@ -28,6 +28,7 @@ export class DetailsComponent implements OnInit {
     this.pokemonsService.getPokemon(this.id).subscribe((response: PokemonDetails) => {
       this.pokemon = response;
       this.updateChartData();
+      this.updateBackgroundColor();
     });
   }
 
@@ -42,19 +43,53 @@ export class DetailsComponent implements OnInit {
     }
   }
 
+  getTypeColor(type: string): string {
+    const typeColors: { [key: string]: string } = {
+      normal: '#deccb4',
+      fire: '#f0c4bb',
+      water: '#dcdff7',
+      electric: '#f5f2ae',
+      grass: '#c5e3cc',
+      ice: '#d5e8eb',
+      fighting: '#dbcbc1',
+      poison: '#ead1ed',
+      ground: '#f5e0ae',
+      flying: '#c5d9eb',
+      psychic: '#e0c1d5',
+      bug: '#dbf5d0',
+      rock: '#dbd6d0',
+      ghost: '#c3b4d1',
+      dragon: '#d1d5e6',
+      dark: '#acacad',
+      steel: '#a8aaad',
+      fairy: '#f7d7f5'
+    };
+    return typeColors[type.toLowerCase()] || '#777777'; // Default to gray if type not found
+  }
+
+  updateBackgroundColor(): void {
+    if (this.pokemon && this.pokemon.types.length > 0) {
+      const typeColor = this.getTypeColor(this.pokemon.types[0].type.name);
+      this.elementRef.nativeElement.style.setProperty('background-color', typeColor);
+    }
+  }
+
   createChart(): void {
     const element = this.elementRef.nativeElement.querySelector('#chart');
     const width = 300;
     const height = 300;
     const radius = Math.min(width, height) / 2;
     const data = [
-      { label: 'hp', value: this.getStat('hp') },
-      { label: 'attack', value: this.getStat('attack') },
-      { label: 'defense', value: this.getStat('defense') },
-      { label: 'special-attack', value: this.getStat('special-attack') },
-      { label: 'special-defense', value: this.getStat('special-defense') },
-      { label: 'speed', value: this.getStat('speed') }
+      { label: 'HP', value: this.getStat('hp') },
+      { label: 'Attack', value: this.getStat('attack') },
+      { label: 'Defense', value: this.getStat('defense') },
+      { label: 'Special-attack', value: this.getStat('special-attack') },
+      { label: 'Special-defense', value: this.getStat('special-defense') },
+      { label: 'Speed', value: this.getStat('speed') }
     ];
+    const total = this.getStat('hp') + this.getStat('attack') + this.getStat('defense') + this.getStat('special-attack') + this.getStat('special-defense') + this.getStat('speed');
+
+    const customColors = ['#ff595a', '#f5ac78', '#fbe078', '#9db7f5', '#a7dc8d', '#fa92b3'];
 
     d3.select(element).select('svg').remove();
 
@@ -67,15 +102,26 @@ export class DetailsComponent implements OnInit {
 
     const color = d3.scaleOrdinal<string>()
       .domain(data.map(d => d.label))
-      .range(d3.schemeTableau10);
+      .range(customColors);
 
-    const pie = d3.pie<any>().value((d: any) => d.value);
+    const pie = d3.pie<any>().value((d: any) => d.value).sort(null);
 
-    const data_ready = pie(this.chartData);
+    const data_ready = pie(data);
 
     const arc = d3.arc<any>()
-      .innerRadius(radius * 0.2)
-      .outerRadius((d: { data: { value: number; }; }) => radius * (d.data.value / 100));
+      .innerRadius(radius * 0.18)
+      .outerRadius((d: { data: { value: number; }; }) => radius * (d.data.value / total *3.5));
+
+    const tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("font-family", "Open Sans, sans-serif");
 
       svg.selectAll('arc')
       .data(data_ready)
@@ -83,14 +129,36 @@ export class DetailsComponent implements OnInit {
       .append('path')
       .attr('d', arc)
       .attr('fill', (d: any) => color(d.data.label))
-      .style("opacity", 0.7);
+      .style("opacity", 1)
+      .on("mouseover", function(event, d) {
+        const currentColor = d3.color(color(d.data.label));
+        if (currentColor) {
+          d3.select(this)
+            .transition()
+            .attr('fill', currentColor.brighter(0.4).toString())
+            .attr("transform", "scale(1.1)");
+        }
 
-    svg
-      .selectAll('text')
-      .data(data_ready)
-      .attr('transform', (d: any) => `translate(${arc.centroid(d)})`)
-      .style('text-anchor', 'middle')
-      .style('font-size', 14);
+        tooltip.transition()
+          .style("opacity", 1);
+        tooltip.html(d.data.label + " : " + d.data.value + ' (' + ((d.data.value / total) * 100).toFixed(2) + '%)')
+          .style("left", (event.pageX + 5) + "px")
+          .style("top", (event.pageY - 28) + "px")
+          .style("border-color", color(d.data.label))
+          .style("font-size", "14px")
+          .style("color", "#797c7d");
+      })
+      .on("mouseout", function(event, d) {
+        d3.select(this)
+          .transition()
+          .attr('d', arc)
+          .attr('fill', color(d.data.label))
+          .attr("transform", "scale(1)");
+
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
 
   const legend = d3.select("#legend")
     .append("ul")
@@ -108,21 +176,21 @@ export class DetailsComponent implements OnInit {
     .style("margin-right", "10px")
     .style("margin-bottom", "10px");
 
-  legendItem.append("span")
-    .style("display", "inline-block")
-    .style("width", "12px")
-    .style("height", "12px")
-    .style("margin-right", "5px")
-    .style("background-color", (d: any) => color(d.label));
 
   legendItem.append("span")
-    .text((d: any) => d.label);
+  .style("display", "inline-block")
+  .style("width", "25px")
+  .style("height", "15px")
+  .style("margin-right", "5px")
+  .style("border-radius", "3px")
+  .style("background-color", (d: any) => color(d.label));
+
+legendItem.append("span")
+  .text((d: any) => d.label);
   }
-
-
-
 
   getStat(statName: string): any {
     return this.pokemon?.stats.find(stat => stat.stat.name === statName)?.base_stat;
   }
+
 }
